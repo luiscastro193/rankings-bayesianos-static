@@ -1,0 +1,161 @@
+body {
+	background-color: rgb(245, 240, 209);
+}
+
+.header {
+	color: black;
+	background-color: rgb(229, 189, 120);
+	border-radius: 10px;
+	text-decoration: none;
+	padding: 0.3cm;
+}
+
+.default-msg {
+	max-width: 17cm;
+	background-color: rgb(242, 214, 127);
+	border-radius: 10px;
+	padding: 0.3cm;
+}
+
+.sign-bar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	align-content: flex-start;
+	margin-bottom: 0.3cm;
+}
+
+.sign-bar > * {
+	margin-right: 0.3cm;
+	margin-bottom: 0.3cm;
+	margin-top: 0cm;
+}
+
+.order-bar {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	align-content: flex-start;
+	margin-bottom: 0.3cm;
+}
+
+.order-bar > * {
+	margin-right: 0.5cm;
+	margin-bottom: 0.3cm;
+	color: black;
+	background-color: rgb(122, 160, 210);
+	border-radius: 10px;
+	text-decoration: none;
+	padding: 0.3cm;
+}
+
+.posts-box {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	align-content: flex-start;
+}
+
+.posts-box > * {
+	margin-right: 0.5cm;
+	margin-bottom: 0.5cm;
+}
+
+.posts-box > article, .posts-box > form {
+	border-style: solid;
+	border-color: rgb(242, 214, 127);
+	background-color: rgba(242, 214, 127, 0.15);
+	border-radius: 10px;
+	padding-top: 0.3cm;
+	padding-left: 0.3cm;
+	max-width: 17cm;
+}
+
+.posts-box > * > p {
+	margin-right: 0.3cm;
+	margin-bottom: 0.3cm;
+	margin-top: 0cm;
+}
+
+.post-content {
+	max-height: 4em;
+	overflow: hidden;
+	white-space: pre-wrap;
+}
+
+.post-info {
+	max-height: 3em;
+	overflow: hidden;
+}
+
+.voting-box {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	align-content: flex-start;
+}
+
+.voting-box > * {
+	margin-right: 0.3cm;
+	margin-bottom: 0.3cm;
+	margin-top: 0cm;
+}
+
+.positive {
+	color: rgb(45, 156, 149);
+}
+
+.negative {
+	color: rgb(195, 69, 104);
+}
+
+.post-form {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	align-content: flex-start;
+	width: 100%;
+}
+
+.post-form > * {
+	margin-bottom: 0.3cm;
+	margin-right: 0.3cm;
+}
+
+.post-input {
+	align-self: stretch;
+}
+
+.propose-button {
+	background-color: rgb(140, 183, 126);
+}
+
+.load-more {
+	background-color: rgb(242, 214, 127);
+	padding: 0.2cm;
+}
+
+.modal {
+	position: fixed;
+	z-index: 1;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+	margin: 8px;
+	padding: 0.3cm;
+	background-color: #fefefe;
+	border-radius: 10px;
+}
+
+.close {
+	float: right;
+	font-weight: bold;
+	font-size: 0.7cm;
+	cursor: pointer;
+}

@@ -68,20 +68,20 @@ function setLinks(postNode, vote, order, funct = rateIssue) {
 	if (vote === true) {
 		positive.style.fontWeight = 'bold';
 		negative.style.fontWeight = 'normal';
-		positive.querySelector('a').onclick = function() { funct(this.parentNode.parentNode.parentNode, null, order) };
-		negative.querySelector('a').onclick = function() { funct(this.parentNode.parentNode.parentNode, false, order) };
+		positive.querySelector('a').onclick = function() { funct(postNode, null, order) };
+		negative.querySelector('a').onclick = function() { funct(postNode, false, order) };
 	}
 	else if (vote === false) {
 		positive.style.fontWeight = 'normal';
 		negative.style.fontWeight = 'bold';
-		positive.querySelector('a').onclick = function() { funct(this.parentNode.parentNode.parentNode, true, order) };
-		negative.querySelector('a').onclick = function() { funct(this.parentNode.parentNode.parentNode, null, order) };
+		positive.querySelector('a').onclick = function() { funct(postNode, true, order) };
+		negative.querySelector('a').onclick = function() { funct(postNode, null, order) };
 	}
 	else {
 		positive.style.fontWeight = 'normal';
 		negative.style.fontWeight = 'normal';
-		positive.querySelector('a').onclick = function() { funct(this.parentNode.parentNode.parentNode, true, order) };
-		negative.querySelector('a').onclick = function() { funct(this.parentNode.parentNode.parentNode, false, order) };
+		positive.querySelector('a').onclick = function() { funct(postNode, true, order) };
+		negative.querySelector('a').onclick = function() { funct(postNode, false, order) };
 	}
 }
 

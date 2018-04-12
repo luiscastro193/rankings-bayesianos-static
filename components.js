@@ -146,6 +146,8 @@ function seeMore(element) {
 }
 
 function loadIssues(order = 'promising', offset = 0) {
+	document.title = "Rankings bayesianos";
+	
 	document.querySelector('main').innerHTML = `<section class='order-bar'>
 		<a id="newLink" href="#!/new">Nuevas</a>
 		<a id="promisingLink" href="#!/promising">Prometedoras</a>
@@ -310,14 +312,10 @@ function loadURI(event) {
 		else
 			loadIssue(uri[2], undefined, offset);
 	}
-	else if (uri[1] == 'new' || uri[1] == 'promising' || uri[1] == 'best' || uri[1] == 'consolidated') {
-		document.title = "Rankings bayesianos";
+	else if (uri[1] == 'new' || uri[1] == 'promising' || uri[1] == 'best' || uri[1] == 'consolidated')
 		loadIssues(uri[1], offset);
-	}
-	else {
-		document.title = "Rankings bayesianos";
+	else
 		loadIssues(undefined, offset);
-	}
 }
 
 window.onpopstate = loadURI;

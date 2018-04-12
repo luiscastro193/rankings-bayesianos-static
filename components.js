@@ -266,6 +266,8 @@ function loadIssue(issueid, order = 'promising', offset = 0) {
 	let orderBar = document.querySelector('.order-bar');
 
 	get('/issue/' + issueid, isSignedIn()).then(issue => {
+		document.title = `${issue.content} - Ranking bayesianos`;
+		
 		orderBar.insertAdjacentHTML('beforebegin', `<section class='posts-box'>
 			<article>
 				<p class='post-content'></p>
@@ -308,10 +310,14 @@ function loadURI(event) {
 		else
 			loadIssue(uri[2], undefined, offset);
 	}
-	else if (uri[1] == 'new' || uri[1] == 'promising' || uri[1] == 'best' || uri[1] == 'consolidated')
+	else if (uri[1] == 'new' || uri[1] == 'promising' || uri[1] == 'best' || uri[1] == 'consolidated') {
+		document.title = "Rankings bayesianos";
 		loadIssues(uri[1], offset);
-	else
+	}
+	else {
+		document.title = "Rankings bayesianos";
 		loadIssues(undefined, offset);
+	}
 }
 
 window.onpopstate = loadURI;

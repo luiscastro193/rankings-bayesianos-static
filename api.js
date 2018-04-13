@@ -3,7 +3,7 @@ var gapiPromise;
 var registerPromise;
 
 function pause(ms) {
-	return new Promise(function(resolve) { setTimeout(resolve, ms) });
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 function isSignedIn() {
@@ -12,28 +12,28 @@ function isSignedIn() {
 }
 
 function signIn() {
-	return new Promise(function(resolve, reject) {
+	return new Promise((resolve, reject) => {
 		var auth2 = window.gapi && gapi.auth2 && gapi.auth2.getAuthInstance();
 		
 		if (!auth2)
-			return pause(1500).then(function() { resolve(signIn()) });
+			return pause(1500).then(() => resolve(signIn()));
 		
-		auth2.then(function() {
+		auth2.then(() => {
 			if (auth2.isSignedIn.get())
 				resolve();
 			else {
 				if (!gapiPromise) gapiPromise = auth2.signIn();
 			
-				gapiPromise.then(function() {
+				gapiPromise.then(() => {
 					gapiPromise = null;
 					loadUser();
 					resolve();
-				}).catch(function() {
+				}).catch(() => {
 					gapiPromise = null;
 					reject();
 				});
 			}
-		}).catch(function() { reject() });
+		}).catch(() => reject());
 	});
 }
 
@@ -43,7 +43,7 @@ function errorHandler(error) {
 }
 
 function newRegisterPromise() {
-	return new Promise(function(resolve, reject) {
+	return new Promise((resolve, reject) => {
 		document.body.insertAdjacentHTML('afterbegin', `<div class="modal">
 			<div class="modal-content"><span class="close">&times;</span><div class="modal-inner"></div></div>
 		</div>`);
@@ -63,7 +63,7 @@ function newRegisterPromise() {
 		let form = content.querySelector('form');
 		
 		form.onsubmit = function(event) {
-			post("/register", {username: form.username.value}, true).then(function() {
+			post("/register", {username: form.username.value}, true).then(() => {
 				modal.parentNode.removeChild(modal);
 				resolve();
 			}).catch(errorHandler);
@@ -79,7 +79,7 @@ function newRegisterPromise() {
 }
 
 function request(method, component, data, withCredentials = false) {
-	return new Promise(function(resolve, reject) {
+	return new Promise((resolve, reject) => {
 		let xhr = new XMLHttpRequest();
 		xhr.open(method, component);
 		xhr.responseType = "json";
@@ -91,9 +91,9 @@ function request(method, component, data, withCredentials = false) {
 			if (auth2 = isSignedIn())
 				xhr.setRequestHeader('Authorization', 'Bearer ' + auth2.currentUser.get().getAuthResponse().id_token);
 			else {
-				return signIn().then(function() {
+				return signIn().then(() => {
 					resolve(request(method, component, data, withCredentials));
-				}).catch(function() {
+				}).catch(() => {
 					reject({statusText: "Unauthorized", errorMsg: "Sign in required"});
 				});
 			}
@@ -105,19 +105,19 @@ function request(method, component, data, withCredentials = false) {
 					if (xhr.response.error == "Registration required") {
 						if (!registerPromise) registerPromise = newRegisterPromise();
 				
-						registerPromise.then(function() {
+						registerPromise.then(() => {
 							registerPromise = null;
 							loadUser();
 							resolve(request(method, component, data, withCredentials));
-						}).catch(function() {
+						}).catch(() => {
 							registerPromise = null;
 							reject({statusText: xhr.statusText, errorMsg: "Registration required"});
 						});
 					}
 					else if (xhr.response.error == "Invalid token") {
-						signIn().then(function() {
+						signIn().then(() => {
 							resolve(request(method, component, data, withCredentials));
-						}).catch(function() {
+						}).catch(() => {
 							reject({statusText: "Unauthorized", errorMsg: "Sign in required"});
 						});
 					}
@@ -131,7 +131,7 @@ function request(method, component, data, withCredentials = false) {
 				resolve(xhr.response);
 		}
 		
-		xhr.onerror = function() { reject({statusText: xhr.statusText, errorMsg: "Request failed"}) };
+		xhr.onerror = () => reject({statusText: xhr.statusText, errorMsg: "Request failed"});
 		xhr.send(JSON.stringify(data));
 	});
 }

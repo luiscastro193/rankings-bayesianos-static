@@ -8,10 +8,10 @@ function loadUser() {
 	document.getElementById('welcomeMsg').innerHTML = '';
 	document.getElementById('signOut').innerHTML = '';
 	
-	get("/username", true).then(function(username) {
+	get("/username", true).then(username => {
 		document.getElementById('welcomeMsg').textContent = `Bienvenido, ${username}.`;
 		document.getElementById('signOut').textContent = "Log out";
-	}).catch(function() {});
+	}).catch(() => {});
 	
 	localStorage.cookie = 'true';
 }
@@ -27,10 +27,10 @@ function postIssue(form) {
 	button.disabled = true;
 	button.value = "Proponiendo...";
 	
-	post('/issue', {content: form.elements.issueText.value}, true).then(function() {
+	post('/issue', {content: form.elements.issueText.value}, true).then(() => {
 		if (location.hash == "#/new") loadURI();
 		else location.hash = "/new";
-	}).catch(function(error) {
+	}).catch(error => {
 		errorHandler(error);
 		button.value = "Proponer";
 		button.disabled = false;
@@ -42,10 +42,10 @@ function postAnswer(form, issueid) {
 	button.disabled = true;
 	button.value = "Proponiendo...";
 	
-	post('/answer', {issueid, content: form.elements.answerText.value}, true).then(function() {
+	post('/answer', {issueid, content: form.elements.answerText.value}, true).then(() => {
 		if (location.hash == `#/issue/${issueid}/new`) loadURI();
 		else location.hash = `/issue/${issueid}/new`;
-	}).catch(function(error) {
+	}).catch(error => {
 		errorHandler(error);
 		button.value = "Proponer";
 		button.disabled = false;
@@ -99,7 +99,7 @@ function rateIssue(issue, vote, order) {
 			chosenScore = 'score';
 	}
 	
-	post('/issue-vote', {issueid: issue.issueid, vote}, true).then(function(scores) {
+	post('/issue-vote', {issueid: issue.issueid, vote}, true).then(scores => {
 		let newScore = scores[chosenScore];
 		issue.querySelector("[name=score]").textContent = newScore.toFixed();
 		setColors(issue, newScore);
@@ -123,7 +123,7 @@ function rateAnswer(answer, vote, order) {
 			chosenScore = 'score';
 	}
 	
-	post('/answer-vote', {answerid: answer.answerid, vote}, true).then(function(scores) {
+	post('/answer-vote', {answerid: answer.answerid, vote}, true).then(scores => {
 		let newScore = scores[chosenScore];
 		answer.querySelector("[name=score]").textContent = newScore.toFixed();
 		setColors(answer, newScore);
@@ -165,7 +165,7 @@ function loadIssues(order = 'promising', offset = 0) {
 	document.getElementById(order + 'Link').style.fontWeight = 'bold';
 	let form = document.querySelector('form');
 	
-	get('/issues/' + order + '?offset=' + offset, isSignedIn()).then(function(issues) {
+	get('/issues/' + order + '?offset=' + offset, isSignedIn()).then(issues => {
 		for (let issue of issues.issues) {
 			form.insertAdjacentHTML('beforebegin', `<article>
 				<p class='post-content'><a href="#/issue/${issue.issueid}"></a></p>
@@ -210,7 +210,7 @@ function loadAnswers(issueid, order, offset = 0) {
 	form.parentNode.removeChild(form.nextSibling);
 	while (form.previousSibling) form.parentNode.removeChild(form.previousSibling);
 	
-	get('/issue/' + issueid + '/answers/' + order + '?offset=' + offset, isSignedIn()).then(function(answers) {
+	get('/issue/' + issueid + '/answers/' + order + '?offset=' + offset, isSignedIn()).then(answers => {
 		for (let answer of answers.answers) {
 			form.insertAdjacentHTML('beforebegin', `<article>
 				<p class='post-content'></p>
@@ -267,7 +267,7 @@ function loadIssue(issueid, order = 'promising', offset = 0) {
 	document.getElementById(order + 'Link').style.fontWeight = 'bold';
 	let orderBar = document.querySelector('.order-bar');
 
-	get('/issue/' + issueid, isSignedIn()).then(function(issue) {
+	get('/issue/' + issueid, isSignedIn()).then(issue => {
 		document.title = `${issue.content} - Ranking bayesianos`;
 		
 		orderBar.insertAdjacentHTML('beforebegin', `<section class='posts-box'>

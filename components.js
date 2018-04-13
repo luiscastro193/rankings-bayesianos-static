@@ -8,10 +8,10 @@ function loadUser() {
 	document.getElementById('welcomeMsg').innerHTML = '';
 	document.getElementById('signOut').innerHTML = '';
 	
-	get("/username", true).then(username => {
+	get("/username", true).then(function(username) {
 		document.getElementById('welcomeMsg').textContent = `Bienvenido, ${username}.`;
 		document.getElementById('signOut').textContent = "Log out";
-	}).catch(() => {});
+	}).catch(function() {});
 	
 	localStorage.cookie = 'true';
 }
@@ -27,10 +27,10 @@ function postIssue(form) {
 	button.disabled = true;
 	button.value = "Proponiendo...";
 	
-	post('/issue', {content: form.elements.issueText.value}, true).then(() => {
-		if (location.hash == "#!/new") loadURI();
-		else location.hash = "!/new";
-	}).catch(error => {
+	post('/issue', {content: form.elements.issueText.value}, true).then(function() {
+		if (location.hash == "#/new") loadURI();
+		else location.hash = "/new";
+	}).catch(function(error) {
 		errorHandler(error);
 		button.value = "Proponer";
 		button.disabled = false;
@@ -42,10 +42,10 @@ function postAnswer(form, issueid) {
 	button.disabled = true;
 	button.value = "Proponiendo...";
 	
-	post('/answer', {issueid, content: form.elements.answerText.value}, true).then(() => {
-		if (location.hash == `#!/issue/${issueid}/new`) loadURI();
-		else location.hash = `!/issue/${issueid}/new`;
-	}).catch(error => {
+	post('/answer', {issueid, content: form.elements.answerText.value}, true).then(function() {
+		if (location.hash == `#/issue/${issueid}/new`) loadURI();
+		else location.hash = `/issue/${issueid}/new`;
+	}).catch(function(error) {
 		errorHandler(error);
 		button.value = "Proponer";
 		button.disabled = false;
@@ -99,7 +99,7 @@ function rateIssue(issue, vote, order) {
 			chosenScore = 'score';
 	}
 	
-	post('/issue-vote', {issueid: issue.issueid, vote}, true).then(scores => {
+	post('/issue-vote', {issueid: issue.issueid, vote}, true).then(function(scores) {
 		let newScore = scores[chosenScore];
 		issue.querySelector("[name=score]").textContent = newScore.toFixed();
 		setColors(issue, newScore);
@@ -123,7 +123,7 @@ function rateAnswer(answer, vote, order) {
 			chosenScore = 'score';
 	}
 	
-	post('/answer-vote', {answerid: answer.answerid, vote}, true).then(scores => {
+	post('/answer-vote', {answerid: answer.answerid, vote}, true).then(function(scores) {
 		let newScore = scores[chosenScore];
 		answer.querySelector("[name=score]").textContent = newScore.toFixed();
 		setColors(answer, newScore);
@@ -149,10 +149,10 @@ function loadIssues(order = 'promising', offset = 0) {
 	document.title = "Rankings bayesianos";
 	
 	document.querySelector('main').innerHTML = `<section class='order-bar'>
-		<a id="newLink" href="#!/new">Nuevas</a>
-		<a id="promisingLink" href="#!/promising">Prometedoras</a>
-		<a id="bestLink" href="#!/best">Mejores</a>
-		<a id="consolidatedLink" href="#!/consolidated">Consolidadas</a>
+		<a id="newLink" href="#/new">Nuevas</a>
+		<a id="promisingLink" href="#/promising">Prometedoras</a>
+		<a id="bestLink" href="#/best">Mejores</a>
+		<a id="consolidatedLink" href="#/consolidated">Consolidadas</a>
 	</section>
 	<section class='posts-box'>
 		<form class='post-form' onsubmit="postIssue(this); return false">
@@ -165,10 +165,10 @@ function loadIssues(order = 'promising', offset = 0) {
 	document.getElementById(order + 'Link').style.fontWeight = 'bold';
 	let form = document.querySelector('form');
 	
-	get('/issues/' + order + '?offset=' + offset, isSignedIn()).then(issues => {
+	get('/issues/' + order + '?offset=' + offset, isSignedIn()).then(function(issues) {
 		for (let issue of issues.issues) {
 			form.insertAdjacentHTML('beforebegin', `<article>
-				<p class='post-content'><a href="#!/issue/${issue.issueid}"></a></p>
+				<p class='post-content'><a href="#/issue/${issue.issueid}"></a></p>
 				<p class='post-info'></p>
 				<section class='voting-box'>
 					<p class='positive'><a class='positive' href="javascript:void(0)">A favor</a> (<span name='trues'>${issue.trues}</span>)</p>
@@ -210,7 +210,7 @@ function loadAnswers(issueid, order, offset = 0) {
 	form.parentNode.removeChild(form.nextSibling);
 	while (form.previousSibling) form.parentNode.removeChild(form.previousSibling);
 	
-	get('/issue/' + issueid + '/answers/' + order + '?offset=' + offset, isSignedIn()).then(answers => {
+	get('/issue/' + issueid + '/answers/' + order + '?offset=' + offset, isSignedIn()).then(function(answers) {
 		for (let answer of answers.answers) {
 			form.insertAdjacentHTML('beforebegin', `<article>
 				<p class='post-content'></p>
@@ -251,10 +251,10 @@ function loadAnswers(issueid, order, offset = 0) {
 
 function loadIssue(issueid, order = 'promising', offset = 0) {
 	document.querySelector('main').innerHTML = `<section class='order-bar'>
-		<a id="newLink" href="#!/issue/${issueid}/new">Nuevas</a>
-		<a id="promisingLink" href="#!/issue/${issueid}/promising">Prometedoras</a>
-		<a id="bestLink" href="#!/issue/${issueid}/best">Mejores</a>
-		<a id="consolidatedLink" href="#!/issue/${issueid}/consolidated">Consolidadas</a>
+		<a id="newLink" href="#/issue/${issueid}/new">Nuevas</a>
+		<a id="promisingLink" href="#/issue/${issueid}/promising">Prometedoras</a>
+		<a id="bestLink" href="#/issue/${issueid}/best">Mejores</a>
+		<a id="consolidatedLink" href="#/issue/${issueid}/consolidated">Consolidadas</a>
 	</section>
 	<section class='posts-box'>
 		<form class='post-form' onsubmit="postAnswer(this, '${issueid}'); return false">
@@ -267,7 +267,7 @@ function loadIssue(issueid, order = 'promising', offset = 0) {
 	document.getElementById(order + 'Link').style.fontWeight = 'bold';
 	let orderBar = document.querySelector('.order-bar');
 
-	get('/issue/' + issueid, isSignedIn()).then(issue => {
+	get('/issue/' + issueid, isSignedIn()).then(function(issue) {
 		document.title = `${issue.content} - Ranking bayesianos`;
 		
 		orderBar.insertAdjacentHTML('beforebegin', `<section class='posts-box'>

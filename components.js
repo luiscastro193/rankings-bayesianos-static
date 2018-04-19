@@ -27,8 +27,9 @@ function goTo(uri, event) {
 	if (event && (event.ctrlKey || event.metaKey || event.shifKey))
 		return true;
 	
+	uri = uri.substr(uri.lastIndexOf('#')+1);
 	if (location.hash == uri) loadURI();
-	else location.hash = uri.substr(uri.lastIndexOf('#')+1);
+	else location.hash = uri;
 		
 	return false;
 }

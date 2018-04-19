@@ -1,4 +1,5 @@
 "use strict";
+if (location.protocol == 'http:') location.protocol = 'https:';
 const posColor = {r: 45, g: 156, b: 149};
 const negColor = {r: 195, g: 69, b: 104};
 const transparency = 0.15;
@@ -259,7 +260,7 @@ function loadAnswers(issueid, order, offset = 0) {
 
 function loadIssue(issueid, order = 'promising', offset = 0) {
 	document.querySelector('main').innerHTML = `<section class='order-bar'>
-		<a id="newLink" href="#/issue/${issueid}/new" onclick="return goTo(this.href, event)">Nuevas</a>
+		<a id="newLink" href="#/issue/${issueid}/new " onclick="return goTo(this.href, event)">Nuevas</a>
 		<a id="promisingLink" href="#/issue/${issueid}/promising" onclick="return goTo(this.href, event)">Prometedoras</a>
 		<a id="bestLink" href="#/issue/${issueid}/best" onclick="return goTo(this.href, event)">Mejores</a>
 		<a id="consolidatedLink" href="#/issue/${issueid}/consolidated" onclick="return goTo(this.href, event)">Consolidadas</a>
@@ -327,3 +328,21 @@ function loadURI(event) {
 }
 
 window.onpopstate = loadURI;
+
+function onLogin() {
+	loadUser();
+	loadURI();
+}
+
+document.addEventListener("DOMContentLoaded", function(event) {
+	if (localStorage.cookie) {
+		signIn().then(() => {
+			if (document.querySelector('.default-msg')) loadURI();
+		}).catch(() => {
+			localStorage.removeItem('cookie');
+			loadURI();
+		});
+	}
+	else
+		loadURI();
+});

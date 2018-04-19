@@ -28,7 +28,7 @@ function goTo(uri, event) {
 		return true;
 	
 	if (location.hash == uri) loadURI();
-	else location.hash = uri.substr(1);
+	else location.hash = uri.substr(uri.lastIndexOf('#')+1);
 		
 	return false;
 }

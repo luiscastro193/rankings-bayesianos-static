@@ -31,8 +31,13 @@ function goTo(uri, event) {
 	if (location.hash.substr(1) == uri) loadURI();
 	else location.hash = uri;
 		
-	return false;
+	event.preventDefault();
 }
+
+document.addEventListener('click', function(event) {
+	if (event.target.nodeName.toLowerCase() == 'a' && event.target.href.startsWith(location.origin))
+		goTo(event.target.href, event);
+});
 
 function postIssue(form) {
 	let button = form.querySelector(".propose-button");
@@ -159,10 +164,10 @@ function loadIssues(order = 'promising', offset = 0) {
 	document.title = "Rankings bayesianos";
 	
 	document.querySelector('main').innerHTML = `<section class='order-bar'>
-		<a id="newLink" href="#/new" onclick="return goTo(this.href, event)">Nuevas</a>
-		<a id="promisingLink" href="#/promising" onclick="return goTo(this.href, event)">Prometedoras</a>
-		<a id="bestLink" href="#/best" onclick="return goTo(this.href, event)">Mejores</a>
-		<a id="consolidatedLink" href="#/consolidated" onclick="return goTo(this.href, event)">Consolidadas</a>
+		<a id="newLink" href="#/new">Nuevas</a>
+		<a id="promisingLink" href="#/promising">Prometedoras</a>
+		<a id="bestLink" href="#/best">Mejores</a>
+		<a id="consolidatedLink" href="#/consolidated">Consolidadas</a>
 	</section>
 	<section class='posts-box'>
 		<form class='post-form' onsubmit="postIssue(this); return false">
@@ -178,7 +183,7 @@ function loadIssues(order = 'promising', offset = 0) {
 	get('/issues/' + order + '?offset=' + offset, isSignedIn()).then(issues => {
 		for (let issue of issues.issues) {
 			form.insertAdjacentHTML('beforebegin', `<article>
-				<p class='post-content'><a href="#/issue/${issue.issueid}" onclick="return goTo(this.href, event)"></a></p>
+				<p class='post-content'><a href="#/issue/${issue.issueid}"></a></p>
 				<p class='post-info'></p>
 				<section class='voting-box'>
 					<p class='positive'><a class='positive' href="javascript:void(0)">A favor</a> (<span name='trues'>${issue.trues}</span>)</p>
@@ -261,10 +266,10 @@ function loadAnswers(issueid, order, offset = 0) {
 
 function loadIssue(issueid, order = 'promising', offset = 0) {
 	document.querySelector('main').innerHTML = `<section class='order-bar'>
-		<a id="newLink" href="#/issue/${issueid}/new" onclick="return goTo(this.href, event)">Nuevas</a>
-		<a id="promisingLink" href="#/issue/${issueid}/promising" onclick="return goTo(this.href, event)">Prometedoras</a>
-		<a id="bestLink" href="#/issue/${issueid}/best" onclick="return goTo(this.href, event)">Mejores</a>
-		<a id="consolidatedLink" href="#/issue/${issueid}/consolidated" onclick="return goTo(this.href, event)">Consolidadas</a>
+		<a id="newLink" href="#/issue/${issueid}/new">Nuevas</a>
+		<a id="promisingLink" href="#/issue/${issueid}/promising">Prometedoras</a>
+		<a id="bestLink" href="#/issue/${issueid}/best">Mejores</a>
+		<a id="consolidatedLink" href="#/issue/${issueid}/consolidated">Consolidadas</a>
 	</section>
 	<section class='posts-box'>
 		<form class='post-form' onsubmit="postAnswer(this, '${issueid}'); return false">

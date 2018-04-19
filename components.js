@@ -260,7 +260,7 @@ function loadAnswers(issueid, order, offset = 0) {
 
 function loadIssue(issueid, order = 'promising', offset = 0) {
 	document.querySelector('main').innerHTML = `<section class='order-bar'>
-		<a id="newLink" href="#/issue/${issueid}/new " onclick="return goTo(this.href, event)">Nuevas</a>
+		<a id="newLink" href="#/issue/${issueid}/new" onclick="return goTo(this.href, event)">Nuevas</a>
 		<a id="promisingLink" href="#/issue/${issueid}/promising" onclick="return goTo(this.href, event)">Prometedoras</a>
 		<a id="bestLink" href="#/issue/${issueid}/best" onclick="return goTo(this.href, event)">Mejores</a>
 		<a id="consolidatedLink" href="#/issue/${issueid}/consolidated" onclick="return goTo(this.href, event)">Consolidadas</a>

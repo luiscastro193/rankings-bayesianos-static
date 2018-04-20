@@ -24,7 +24,7 @@ function clearUser() {
 }
 
 function goTo(uri, event) {
-	if (event && (event.ctrlKey || event.metaKey || event.shiftKey))
+	if (event && (event.ctrlKey || event.metaKey || event.shiftKey || event.which > 1))
 		return true;
 	
 	uri = uri.substr(uri.lastIndexOf('#') + 1);

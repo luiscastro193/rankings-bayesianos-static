@@ -31,7 +31,7 @@ function goTo(uri, event) {
 	if (location.hash.substr(1) == uri) loadURI();
 	else location.hash = uri;
 		
-	event.preventDefault();
+	event && event.preventDefault();
 }
 
 document.addEventListener('click', function(event) {

@@ -1,5 +1,5 @@
 "use strict";
-if (location.protocol == 'http:') location.protocol = 'https:';
+if (location.protocol == 'http:' && location.hostname != 'localhost') location.protocol = 'https:';
 const posColor = {r: 45, g: 156, b: 149};
 const negColor = {r: 195, g: 69, b: 104};
 const transparency = 0.15;

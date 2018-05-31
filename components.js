@@ -10,7 +10,7 @@ function loadUser() {
 	document.getElementById('signOut').innerHTML = '';
 	
 	get("/username", true).then(username => {
-		document.getElementById('welcomeMsg').textContent = `Bienvenido, ${username}.`;
+		document.getElementById('welcomeMsg').textContent = `Bienvenid@, ${username}.`;
 		document.getElementById('signOut').textContent = "Log out";
 	}).catch(() => {});
 	

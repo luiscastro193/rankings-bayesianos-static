@@ -340,15 +340,13 @@ function onLogin() {
 	loadURI();
 }
 
-document.addEventListener("DOMContentLoaded", function(event) {
-	if (localStorage.cookie) {
-		signIn().then(() => {
-			if (document.querySelector('.default-msg')) loadURI();
-		}).catch(() => {
-			localStorage.removeItem('cookie');
-			loadURI();
-		});
-	}
-	else
-		loadURI();
-});
+if (localStorage.cookie) {
+	signIn().then(() => {
+		if (document.querySelector('.default-msg')) loadURI();
+	}).catch(() => {
+		localStorage.removeItem('cookie');
+		if (document.querySelector('.default-msg')) loadURI();
+	});
+}
+else
+	if (document.querySelector('.default-msg')) loadURI();
